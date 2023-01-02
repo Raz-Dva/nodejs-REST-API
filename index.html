@@ -1,0 +1,70 @@
+<h1>Hello MongoDB + Express + NodeJs</h1>
+<textarea style="width: 100%; height: 100px" id="msg"></textarea>
+<br />
+<button
+  onclick="post('/api/post', {
+  name: 'Allen', age: 30
+})"
+>
+  POST /api/post
+</button>
+<br />
+<button onclick="getOne('/api/getOne/1000')">Test GET /api/getOne/1000</button>
+<br />
+<button onclick="postClick()">CLICK /post</button>
+
+<script>
+  const $ = document.querySelector.bind(document);
+  async function postClick() {
+    const response = await fetch('/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ num1_bi: 01234567890123456789, num2: 10 }),
+    });
+
+    const json = await response.json();
+
+    // let count = 0;
+
+    // function replacer(key, value) {
+    //   // console.log(key);
+    //   // console.log(value);
+
+    //   // console.log(key === 'num');
+    //   if (key.endsWith('_bi')) {
+    //     // console.log();
+    //     return BigInt(value.slice(0, -1));
+    //   }
+    //   return value;
+    // }
+    const objN = JSON.parse(json.num1_bi);
+    console.log(objN);
+
+    // for (key in objN) {
+    //   // console.log(objN[key]);
+
+    //   if (key.endsWith('_bi')) {
+    //   }
+    // }
+    // console.log(JSON.stringify(json, replacer));
+    // $('#msg').value =
+    //   `fetch POST ${'/api/post1'} \n` + `${JSON.stringify(json, replacer)}`;
+  }
+
+  async function post(url, data = {}) {
+    const response = await fetch('/api/post', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    $('#msg').value =
+      `fetch POST ${url} \n` + `${JSON.stringify(json, null, ' ')}`;
+  }
+
+  async function getOne(url = '/getOne/1000') {
+    const response = await fetch(url);
+    const json = await response.json();
+    $('#msg').value =
+      `fetch GET ${url} \n` + `${JSON.stringify(json, null, ' ')}`;
+  }
+</script>
